@@ -35,7 +35,7 @@ public class Inventory
             .OrderBy(item => item.PosX)
             .ThenBy(item => item.PosY)
             .ToList();
-
+        
         foreach (var inventoryItem in sortedInventoryItems)
         {
             if (inventoryItem.Item == null || inventoryItem.Address == 0)
@@ -45,22 +45,33 @@ public class Inventory
                 continue;
 
             var testItem = new ItemData(inventoryItem.Item, Instance.GameController);
+            
+            var filterMatch = false;
 
             foreach (var customFilter in Instance.CurrentFilter)
-            foreach (var filter in customFilter.Filters)
-                try
-                {
-                    if (!filter.AllowProcess)
-                        continue;
+            {
+                if (filterMatch) break;
 
-                    if (customFilter.CompareItem(testItem, filter.CompiledQuery))
-                        parsedItems.Add(new FilterResult(filter,
-                            inventoryItem.GetClientRect().Center.ToVector2Num()));
-                }
-                catch (Exception e)
+                foreach (var filter in customFilter.Filters)
                 {
-                    Log.Error($"{e.Message}");
+                    try
+                    {
+                        if (!filter.AllowProcess)
+                            continue;
+
+                        if (customFilter.CompareItem(testItem, filter.CompiledQuery))
+                        {
+                            parsedItems.Add(new FilterResult(filter, inventoryItem.GetClientRect().Center.ToVector2Num()));
+                            filterMatch = true;
+                            break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"{e.Message}");
+                    }
                 }
+            }
         }
 
         return parsedItems;
