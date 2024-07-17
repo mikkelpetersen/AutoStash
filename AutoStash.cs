@@ -143,6 +143,8 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
 
     private static async SyncTask<bool> Cleanup()
     {
+        Input.LockController = false;
+        
         await Input.KeyUp(Keys.LControlKey);
         await Input.KeyUp(Keys.ShiftKey);
 
@@ -185,9 +187,7 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
         if (ExileCore.Input.IsKeyDown(Keys.ShiftKey)) await Input.KeyUp(Keys.ShiftKey);
 
         await Input.KeyUp(Keys.LControlKey);
-
-        Input.LockController = false;
-
+        
         await Cleanup();
 
         return true;
