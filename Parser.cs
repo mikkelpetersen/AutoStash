@@ -46,6 +46,7 @@ public class Parser
                         Name = filter.Name,
                         Shifting = filter.Shifting ?? false,
                         Affinity = filter.Affinity ?? false,
+                        Stackable = filter.Stackable ?? false,
                         RawQuery = rawQuery,
                         CompiledQuery = compiledQuery
                     });
@@ -79,5 +80,6 @@ public class Parser
         public string[] RawQuery { get; set; }
         public bool? Shifting { get; set; }
         public bool? Affinity { get; set; }
+        public bool? Stackable { get; set; }
     }
 }

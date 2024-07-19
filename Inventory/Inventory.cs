@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.Elements;
 using ExileCore.PoEMemory.MemoryObjects;
 using ExileCore.Shared.Enums;
@@ -35,7 +36,7 @@ public class Inventory
             .OrderBy(item => item.PosX)
             .ThenBy(item => item.PosY)
             .ToList();
-        
+
         foreach (var inventoryItem in sortedInventoryItems)
         {
             if (inventoryItem.Item == null || inventoryItem.Address == 0)
@@ -45,7 +46,7 @@ public class Inventory
                 continue;
 
             var testItem = new ItemData(inventoryItem.Item, Instance.GameController);
-            
+
             var filterMatch = false;
 
             foreach (var customFilter in Instance.CurrentFilter)
@@ -53,15 +54,20 @@ public class Inventory
                 if (filterMatch) break;
 
                 foreach (var filter in customFilter.Filters)
-                {
                     try
                     {
                         if (!filter.AllowProcess)
                             continue;
 
+                        var itemName = inventoryItem.Item.GetComponent<Base>()?.Name;
+
+                        if (filter is { Stackable: true } && parsedItems.Any(x => x.ItemName == itemName))
+                            continue;
+
                         if (customFilter.CompareItem(testItem, filter.CompiledQuery))
                         {
-                            parsedItems.Add(new FilterResult(filter, inventoryItem.GetClientRect().Center.ToVector2Num()));
+                            parsedItems.Add(new FilterResult(filter,
+                                inventoryItem.GetClientRect().Center.ToVector2Num(), itemName));
                             filterMatch = true;
                             break;
                         }
@@ -70,7 +76,6 @@ public class Inventory
                     {
                         Log.Error($"{e.Message}");
                     }
-                }
             }
         }
 

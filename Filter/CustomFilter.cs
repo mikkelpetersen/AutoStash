@@ -13,6 +13,7 @@ public class CustomFilter : BaseFilter
         public string Name { get; init; }
         public bool? Shifting { get; init; }
         public bool? Affinity { get; init; }
+        public bool? Stackable { get; init; }
         public string RawQuery { get; set; }
         public ItemQuery CompiledQuery { get; init; }
         public FilterNode FilterSettings { get; set; }
