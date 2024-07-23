@@ -172,7 +172,7 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
             if (!inventoryItem.Affinity) await Stash.ClickTab(inventoryItem.StashIndex);
 
             // If the inventoryItem should be stashed while holding Shift, or if it's Stackable, then hold Shift.
-            switch (inventoryItem.Shifting || inventoryItem.Stackable)
+            switch (inventoryItem.Shifting)
             {
                 case true when !ExileCore.Input.IsKeyDown(Keys.ShiftKey):
                     await Input.KeyDown(Keys.ShiftKey);
@@ -182,7 +182,10 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
                     break;
             }
 
-            await Input.Click(inventoryItem.ClickPosition);
+            if (inventoryItem.Stackable)
+                await Input.Click(inventoryItem.ClickPosition, MouseButtons.Right);
+            else
+                await Input.Click(inventoryItem.ClickPosition);
         }
 
         if (ExileCore.Input.IsKeyDown(Keys.ShiftKey)) await Input.KeyUp(Keys.ShiftKey);
