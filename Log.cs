@@ -1,4 +1,4 @@
-﻿using ExileCore;
+﻿using ExileCore2;
 
 namespace AutoStash;
 

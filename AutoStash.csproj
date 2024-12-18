@@ -11,20 +11,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="ExileCore">
-            <HintPath>$(exapiPackage)\ExileCore.dll</HintPath>
+        <Reference Include="ExileCore2">
+            <HintPath>$(exileCore2Package)\ExileCore2.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="GameOffsets">
-            <HintPath>$(exapiPackage)\GameOffsets.dll</HintPath>
+        <Reference Include="GameOffsets2">
+            <HintPath>$(exileCore2Package)\GameOffsets2.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="ItemFilterLibrary">
-            <HintPath>$(exapiPackage)\ItemFilterLibrary.dll</HintPath>
+            <HintPath>$(exileCore2Package)\ItemFilterLibrary.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="InputHumanizerLib">
-            <HintPath>$(exapiPackage)\InputHumanizerLib.dll</HintPath>
+            <HintPath>$(exileCore2Package)\InputHumanizerLib.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>

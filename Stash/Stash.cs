@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using ExileCore;
-using ExileCore.PoEMemory;
-using ExileCore.PoEMemory.Elements;
-using ExileCore.Shared;
-using ExileCore.Shared.Helpers;
+using ExileCore2;
+using ExileCore2.PoEMemory;
+using ExileCore2.PoEMemory.Elements;
+using ExileCore2.Shared;
 
 namespace AutoStash;
 
@@ -29,9 +28,9 @@ public class Stash
 
     private static async SyncTask<bool> ScrollToTab(int stashIndex)
     {
-        var isControlPressed = ExileCore.Input.IsKeyDown(Keys.LControlKey);
+        var isControlPressed = ExileCore2.Input.IsKeyDown(Keys.LControlKey);
 
-        await Input.MoveMouse(TabSwitchBar.GetClientRect().Center.ToVector2Num());
+        await Input.MoveMouse(TabSwitchBar.GetClientRect().Center);
         await Input.Wait();
 
         if (!isControlPressed)
@@ -75,7 +74,7 @@ public class Stash
 
         if (IsTabVisible(stashIndex))
         {
-            await Input.Click(TabButtons[stashIndex].GetClientRect().Center.ToVector2Num());
+            await Input.Click(TabButtons[stashIndex].GetClientRect().Center);
             await TaskUtils.CheckEveryFrame(() => StashElement.AllInventories[stashIndex] != null,
                 new CancellationTokenSource(2000).Token);
         }

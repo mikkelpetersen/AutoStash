@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
-using ExileCore;
-using ExileCore.PoEMemory.Components;
-using ExileCore.PoEMemory.MemoryObjects;
-using ExileCore.Shared;
-using ExileCore.Shared.Cache;
+using ExileCore2;
+using ExileCore2.PoEMemory.Components;
+using ExileCore2.PoEMemory.MemoryObjects;
+using ExileCore2.Shared;
+using ExileCore2.Shared.Cache;
 using ImGuiNET;
 
 namespace AutoStash;
@@ -32,10 +32,10 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
     {
         Instance ??= this;
 
-        ExileCore.Input.RegisterKey(Settings.RunHotkey);
-        Settings.RunHotkey.OnValueChanged += () => { ExileCore.Input.RegisterKey(Settings.RunHotkey); };
-        ExileCore.Input.RegisterKey(Settings.CancelHotkey);
-        Settings.CancelHotkey.OnValueChanged += () => { ExileCore.Input.RegisterKey(Settings.CancelHotkey); };
+        ExileCore2.Input.RegisterKey(Settings.RunHotkey);
+        Settings.RunHotkey.OnValueChanged += () => { ExileCore2.Input.RegisterKey(Settings.RunHotkey); };
+        ExileCore2.Input.RegisterKey(Settings.CancelHotkey);
+        Settings.CancelHotkey.OnValueChanged += () => { ExileCore2.Input.RegisterKey(Settings.CancelHotkey); };
 
         LoadFilters();
         Settings.FilterFile.OnValueSelected = _ => LoadFilters();
@@ -47,7 +47,7 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
     {
     }
 
-    public override Job Tick()
+    public override void Tick()
     {
         if (!Stash.IsVisible || !Inventory.IsVisible)
             if (_scheduler.CurrentTask != null)
@@ -56,8 +56,6 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
         if (Settings.CancelHotkey.PressedOnce()) Stop();
 
         if (Settings.RunHotkey.PressedOnce()) _scheduler.AddTask(Run(), "Run");
-
-        return null;
     }
 
     public override void Render()
@@ -174,10 +172,10 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
             // If the inventoryItem should be stashed while holding Shift, or if it's Stackable, then hold Shift.
             switch (inventoryItem.Shifting)
             {
-                case true when !ExileCore.Input.IsKeyDown(Keys.ShiftKey):
+                case true when !ExileCore2.Input.IsKeyDown(Keys.ShiftKey):
                     await Input.KeyDown(Keys.ShiftKey);
                     break;
-                case false when ExileCore.Input.IsKeyDown(Keys.ShiftKey):
+                case false when ExileCore2.Input.IsKeyDown(Keys.ShiftKey):
                     await Input.KeyUp(Keys.ShiftKey);
                     break;
             }
@@ -188,7 +186,7 @@ public class AutoStash : BaseSettingsPlugin<AutoStashSettings>
                 await Input.Click(inventoryItem.ClickPosition);
         }
 
-        if (ExileCore.Input.IsKeyDown(Keys.ShiftKey)) await Input.KeyUp(Keys.ShiftKey);
+        if (ExileCore2.Input.IsKeyDown(Keys.ShiftKey)) await Input.KeyUp(Keys.ShiftKey);
 
         await Input.KeyUp(Keys.LControlKey);
 

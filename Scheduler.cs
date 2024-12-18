@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ExileCore.Shared;
+using ExileCore2.Shared;
 
 namespace AutoStash;
 

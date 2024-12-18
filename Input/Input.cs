@@ -2,13 +2,12 @@
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows.Forms;
-using ExileCore.Shared;
-using ExileCore.Shared.Helpers;
+using ExileCore2.Shared;
 using InputHumanizer.Input;
 
 namespace AutoStash;
 
-public class Input : ExileCore.Input
+public class Input
 {
     private static readonly AutoStash Instance = AutoStash.Instance;
 
@@ -18,9 +17,8 @@ public class Input : ExileCore.Input
     public static async SyncTask<bool> MoveMouse(Vector2 targetPosition)
     {
         Controller();
-        await InputController.MoveMouse(GenerateRandomPosition(targetPosition +
-                                                               Instance.GameController.Window.GetWindowRectangle()
-                                                                   .TopLeft.ToVector2Num()));
+        await InputController.MoveMouse(
+            GenerateRandomPosition(targetPosition + Instance.GameController.Window.GetWindowRectangle().TopLeft));
         EndController();
         return true;
     }

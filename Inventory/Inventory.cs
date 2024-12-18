@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ExileCore.PoEMemory.Components;
-using ExileCore.PoEMemory.Elements;
-using ExileCore.PoEMemory.MemoryObjects;
-using ExileCore.Shared.Enums;
-using ExileCore.Shared.Helpers;
+using ExileCore2.PoEMemory.Components;
+using ExileCore2.PoEMemory.Elements;
+using ExileCore2.PoEMemory.MemoryObjects;
+using ExileCore2.Shared.Enums;
 using ItemFilterLibrary;
-using static ExileCore.PoEMemory.MemoryObjects.ServerInventory;
+using static ExileCore2.PoEMemory.MemoryObjects.ServerInventory;
 
 namespace AutoStash;
 
@@ -67,7 +66,7 @@ public class Inventory
                         if (customFilter.CompareItem(testItem, filter.CompiledQuery))
                         {
                             parsedItems.Add(new FilterResult(filter,
-                                inventoryItem.GetClientRect().Center.ToVector2Num(), itemName));
+                                inventoryItem.GetClientRect().Center, itemName));
                             filterMatch = true;
                             break;
                         }
