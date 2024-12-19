@@ -24,7 +24,7 @@ public class Stash
 
     private static StashTopTabSwitcher TabSwitchBar => StashElement.StashTabContainer.TabSwitchBar;
 
-    private static IList<Element> TabButtons => StashElement.TabListButtons;
+    private static IList<Element> TabButtons => StashElement.ViewAllStashPanel.Children[2].Children;
 
     private static async SyncTask<bool> ScrollToTab(int stashIndex)
     {
